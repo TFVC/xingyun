@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test bebetools</title>
+    <script type="module" crossorigin src="./assets/index-bbbey6o2.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-mrolktdz.css">
+  </head>
+  <body>
+    <h1>Test Page</h1>
+    <p>If you can see this, HTML is loading correctly.</p>
+    <div id="root">React app should load here...</div>
+    <script>
+      // Check if React app loads
+      setTimeout(() => {
+        const root = document.getElementById('root');
+        if (root.innerHTML.trim() === 'React app should load here...') {
+          console.error('React app failed to load!');
+          root.innerHTML = '<p style="color: red;">React app failed to load. Check console for errors.</p>';
+        } else {
+          console.log('React app loaded successfully!');
+        }
+      }, 3000);
+    </script>
+  </body>
+</html>

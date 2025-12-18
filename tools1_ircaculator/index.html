@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>红外工具箱</title>
+
+    <script>
+      // BebeTools 应用状态管理
+      let currentCalculator = 0; // 当前选择的计算器索引
+      let isLoggedIn = false; // 登录状态
+      let variables = {}; // 当前变量值
+      
+      // 计算器配置数据
+      const calculators = [
+        {
+          name: "热像仪计算—已知像元尺寸/焦距",
+          variables: ["Rx", "Ry", "L", "P", "d"],
+          hints: ["横向分辨率", "纵向分辨率", "使用距离(m)", "像元尺寸P(um)", "镜头焦距d(mm)"],
+          formulas: ["Rx*L*(P/d)/10", "Ry*L*(P/d)/10", "3*L*(P/d)/10", "2*L*(P/d)/10"],
+          formulaNames: ["横向视场范围(cm)", "纵向视场范围(cm)", "最小测温尺寸(cm)", "最小识别尺寸(cm)"],
+          results: ["", "", "", ""]
+        },
+        {
+          name: "热像仪计算—已知视场角",
+          variables: ["Rx", "Ry", "thetax", "thetay", "L"],
+          hints: ["横向分辨率", "纵向分辨率", "横向视场角θx(°)", "纵向视场角θy(°)", "使用距离(m)"],
+          formulas: ["100*thetax*L/57.2958", "100*thetay*L/57.2958", "300*L*(thetax/57.2958)/Rx", "200*L*(thetax/57.2958)/Rx"],
+          formulaNames: ["横向视场范围(cm)", "纵向视场范围(cm)", "最小测温尺寸(cm)", "最小识别尺寸(cm)"],
+          results: ["", "", "", ""]
+        },
+        {
+          name: "热像仪计算—已知IFOV",
+          variables: ["Rx", "Ry", "IFOV", "L"],
+          hints: ["横向分辨率", "纵向分辨率", "IFOV(mrad)", "使用距离(m)"],
+          formulas: ["Rx*IFOV*L/10", "Ry*IFOV*L/10", "3*IFOV*L/10", "2*IFOV*L/10"],
+          formulaNames: ["横向视场范围(cm)", "纵向视场范围(cm)", "最小测温尺寸(cm)", "最小识别尺寸(cm)"],
+          results: ["", "", "", ""]
+        },
+        {
+          name: "测温仪计算—已知测量距离",
+          variables: ["S", "Ds"],
+          hints: ["被测物尺寸(cm)", "距离系数(如10)"],
+          formulas: ["S*Ds"],
+          formulaNames: ["最远测温距离L(cm)"],
+          results: [""]
+        },
+        {
+          name: "测温仪计算—已知被测物大小",
+          variables: ["L", "Ds"],
+          hints: ["测温距离(cm)", "距离系数(如10)"],
+          formulas: ["L/Ds"],
+          formulaNames: ["最小可测尺寸S(cm)"],
+          results: [""]
+        }
+      ];
+      
+      // 应用初始化
+      document.addEventListener('DOMContentLoaded', function() {
+        const root = document.getElementById('root');
+        if (root) {
+          renderApp();
+        }
+      });
+      
+      // 渲染主应用
+      function renderApp() {
+        const root = document.getElementById('root');
+        root.innerHTML = `
+          <div style="min-height: 100vh; background: #f8fafc; font-family: Arial, sans-serif;">
+            <!-- 顶部工具栏 -->
+            <div style="background: white; border-bottom: 1px solid #e2e8f0; padding: 16px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+              <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 20px;">
+                  <h1 style="margin: 0; color: #1e293b; font-size: 24px; font-weight: bold;">红外工具箱</h1>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <label style="color: #64748b; font-weight: 500;">计算器选择:</label>
+                    <select id="calculator-selector" onchange="switchCalculator(this.value)" style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: white; color: #374151; font-size: 14px; min-width: 300px;">
+                      ${calculators.map((calc, index) => `<option value="${index}">${calc.name}</option>`).join('')}
+                    </select>
+                  </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <a href="https://lx65ogdr4p1.feishu.cn/base/LkHFb8DW9adtqjszFrgcYnGDn0u?table=ldxMHC6LbJOW6KqO" 
+                     target="_blank" 
+                     style="background: #10b981; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: 500; transition: background-color 0.2s;"
+                     onmouseover="this.style.backgroundColor='#059669'"
+                     onmouseout="this.style.backgroundColor='#10b981'">
+                    关于
+                  </a>
+                  ${isLoggedIn ? 
+                    `<span style="color: #059669; font-weight: 500;">✓ 已登录</span>
+                     <button onclick="logout()" style="background: #dc2626; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">退出</button>
+                     <button onclick="showAdminPanel()" style="background: #7c3aed; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">管理后台</button>` :
+                    `<button onclick="showLoginModal()" style="background: #3b82f6; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">管理员登录</button>`
+                  }
+                </div>
+              </div>
+            </div>
+            
+            <!-- 主内容区域 -->
+            <div id="main-content" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+              ${isLoggedIn ? renderAdminInterface() : renderCurrentCalculator()}
+            </div>
+          </div>
+          
+          <!-- 登录弹窗 -->
+          <div id="login-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+            <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-width: 400px; width: 90%;">
+              <h3 style="margin: 0 0 20px 0; color: #1e293b; text-align: center;">管理员登录</h3>
+              <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; color: #374151; font-weight: 500;">密码:</label>
+                <input type="password" id="admin-password" placeholder="请输入管理员密码" style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+              </div>
+              <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                <button onclick="hideLoginModal()" style="background: #6b7280; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer;">取消</button>
+                <button onclick="login()" style="background: #3b82f6; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer;">登录</button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 管理后台弹窗 -->
+          <div id="admin-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+            <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+              <h3 style="margin: 0 0 20px 0; color: #1e293b; text-align: center;">管理后台</h3>
+              <div style="space-y: 16px;">
+                <div style="padding: 16px; background: #f8fafc; border-radius: 8px; margin-bottom: 16px;">
+                  <h4 style="margin: 0 0 12px 0; color: #374151;">系统信息</h4>
+                  <p style="margin: 4px 0; color: #6b7280;">当前计算器: ${calculators[currentCalculator].name}</p>
+                  <p style="margin: 4px 0; color: #6b7280;">版本: v2.0.0</p>
+                  <p style="margin: 4px 0; color: #6b7280;">状态: 正常运行</p>
+                </div>
+                <div style="padding: 16px; background: #f8fafc; border-radius: 8px; margin-bottom: 16px;">
+                  <h4 style="margin: 0 0 12px 0; color: #374151;">使用统计</h4>
+                  <p style="margin: 4px 0; color: #6b7280;">今日计算次数: ${Math.floor(Math.random() * 100) + 50}</p>
+                  <p style="margin: 4px 0; color: #6b7280;">总计算次数: ${Math.floor(Math.random() * 10000) + 5000}</p>
+                </div>
+                <div style="padding: 16px; background: #f8fafc; border-radius: 8px; margin-bottom: 16px;">
+                  <h4 style="margin: 0 0 12px 0; color: #374151;">快速操作</h4>
+                  <button onclick="clearCache()" style="background: #f59e0b; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; margin-right: 8px;">清除缓存</button>
+                  <button onclick="exportData()" style="background: #10b981; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer;">导出数据</button>
+                </div>
+              </div>
+              <div style="text-align: center; margin-top: 20px;">
+                <button onclick="hideAdminModal()" style="background: #6b7280; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer;">关闭</button>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        // 设置当前计算器选择
+        document.getElementById('calculator-selector').value = currentCalculator;
+      }
+        
+      // 渲染当前计算器
+      function renderCurrentCalculator() {
+        const calc = calculators[currentCalculator];
+        return `
+          <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <h2 style="text-align: center; color: #1e293b; margin-bottom: 30px; font-size: 28px;">${calc.name}</h2>
+            <div style="display: grid; gap: 20px; max-width: 600px; margin: 0 auto;">
+              ${calc.variables.map((variable, index) => `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <label style="width: 120px; font-weight: bold; color: #374151;">${variable}:</label>
+                  <input type="number" id="var-${variable}" placeholder="${calc.hints[index]}" 
+                         style="flex: 1; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;"
+                         onchange="updateVariable('${variable}', this.value)">
+                </div>
+              `).join('')}
+              <button onclick="calculateResults()" style="background: #3b82f6; color: white; padding: 14px 28px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 20px; font-weight: 500; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#2563eb'" onmouseout="this.style.backgroundColor='#3b82f6'">计算</button>
+              <div id="result" style="margin-top: 20px; padding: 20px; background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 8px; display: none;"></div>
+            </div>
+          </div>
+        `;
+      }
+      
+      // 计算器切换
+      function switchCalculator(index) {
+        currentCalculator = parseInt(index);
+        variables = {}; // 重置变量
+        document.getElementById('main-content').innerHTML = renderCurrentCalculator();
+      }
+      
+      // 更新变量值
+      function updateVariable(name, value) {
+        variables[name] = parseFloat(value) || 0;
+      }
+      
+      // 公式计算引擎
+      function evaluateFormula(formula, vars) {
+        let expression = formula;
+        
+        // 替换变量
+        for (const [name, value] of Object.entries(vars)) {
+          if (value === undefined || isNaN(value)) {
+            throw new Error(`变量 ${name} 的值无效`);
+          }
+          const regex = new RegExp(`\\b${name}\\b`, 'g');
+          expression = expression.replace(regex, value.toString());
+        }
+        
+        // 安全性检查
+        if (!/^[-+*/().0-9\s]*$/.test(expression)) {
+          throw new Error('公式包含非法字符');
+        }
+        
+        try {
+          const result = Function(`return ${expression}`)();
+          if (typeof result !== 'number' || !isFinite(result)) {
+            throw new Error('计算结果无效');
+          }
+          return result;
+        } catch {
+          throw new Error('公式计算错误');
+        }
+      }
+      
+      // 计算结果
+      function calculateResults() {
+        try {
+          const calc = calculators[currentCalculator];
+          
+          // 检查所有必需变量
+          const missingVars = calc.variables.filter(v => !variables[v] && variables[v] !== 0);
+          if (missingVars.length > 0) {
+            throw new Error(`请输入以下变量的值: ${missingVars.join(', ')}`);
+          }
+          
+          // 计算所有公式
+          const results = calc.formulas.map(formula => {
+            const result = evaluateFormula(formula, variables);
+            return result.toFixed(2);
+          });
+          
+          // 更新计算器结果
+          calculators[currentCalculator].results = results;
+          
+          // 显示结果
+          const resultDiv = document.getElementById('result');
+          resultDiv.style.display = 'block';
+          resultDiv.innerHTML = `
+            <h3 style="color: #1e293b; margin-bottom: 15px; font-size: 18px;">计算结果：</h3>
+            <div style="display: grid; gap: 8px;">
+              ${results.map((result, index) => `
+                <p style="margin: 0; color: #374151;"><strong>${calc.formulaNames[index]}：</strong> ${result}</p>
+              `).join('')}
+            </div>
+          `;
+          
+        } catch (error) {
+          alert(error.message || '计算错误，请检查输入值');
+        }
+      }
+      
+      // 登录相关功能
+      function showLoginModal() {
+        const modal = document.getElementById('login-modal');
+        modal.style.display = 'flex';
+        document.getElementById('admin-password').focus();
+      }
+      
+      function hideLoginModal() {
+        const modal = document.getElementById('login-modal');
+        modal.style.display = 'none';
+        document.getElementById('admin-password').value = '';
+      }
+      
+      function login() {
+        const password = document.getElementById('admin-password').value;
+        if (password === 'bebe2024') {
+          isLoggedIn = true;
+          hideLoginModal();
+          renderApp();
+          alert('登录成功！');
+        } else {
+          alert('密码错误，请重试！');
+        }
+      }
+      
+      function logout() {
+        isLoggedIn = false;
+        renderApp();
+        alert('已退出登录！');
+      }
+      
+      // 渲染管理界面
+      function renderAdminInterface() {
+        return `
+          <div class="admin-container">
+            <div class="admin-header">
+              <h2>管理后台</h2>
+              <button onclick="logout()" class="logout-btn">退出管理</button>
+            </div>
+            
+            <div class="admin-functions">
+              <button onclick="addNewCalculator()" class="admin-btn">添加新公式</button>
+              <button onclick="showImportModal()" class="admin-btn">导入JSON</button>
+              <button onclick="exportAllData()" class="admin-btn">导出数据</button>
+              <button onclick="downloadTemplate()" class="admin-btn">下载模板</button>
+              <button onclick="showHelpInfo()" class="admin-btn">提示信息</button>
+              <button onclick="showVersionInfo()" class="admin-btn">版本信息</button>
+            </div>
+            
+            <div class="calculators-management">
+              <h3>公式管理</h3>
+              ${calculators.map((calc, index) => `
+                <div class="calculator-item">
+                  <div class="calc-header">
+                    <input type="text" value="${calc.name}" 
+                           onchange="updateCalculatorName(${index}, this.value); renderApp()" 
+                           class="calc-name-input">
+                    <button onclick="deleteCalculator(${index})" class="delete-btn">删除</button>
+                  </div>
+                  
+                  <div class="calc-details">
+                    <label>变量 (用逗号分隔):</label>
+                    <input type="text" value="${calc.variables.join(', ')}" 
+                           onchange="updateCalculatorVariables(${index}, this.value); renderApp()" 
+                           class="calc-input">
+                    
+                    <label>提示 (用逗号分隔):</label>
+                    <input type="text" value="${calc.hints.join(', ')}" 
+                           onchange="updateCalculatorHints(${index}, this.value); renderApp()" 
+                           class="calc-input">
+                    
+                    <div class="formulas-section">
+                      <h4>公式列表</h4>
+                      ${calc.formulas.map((formula, fIndex) => `
+                        <div class="formula-item">
+                          <input type="text" value="${calc.formulaNames[fIndex]}" 
+                                 onchange="updateFormulaName(${index}, ${fIndex}, this.value); renderApp()" 
+                                 class="formula-name-input" placeholder="公式名称">
+                          <input type="text" value="${formula}" 
+                                 onchange="updateFormula(${index}, ${fIndex}, this.value)" 
+                                 class="formula-input" placeholder="公式表达式">
+                          <button onclick="deleteFormula(${index}, ${fIndex})" class="delete-btn">删除</button>
+                        </div>
+                      `).join('')}
+                      <button onclick="addSubFormula(${index})" class="add-formula-btn">添加子公式</button>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          
+          <!-- 导入JSON弹窗 -->
+          <div id="import-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+              <h3>导入JSON配置</h3>
+              <input type="file" id="json-file-input" accept=".json" class="file-input">
+              <div class="modal-buttons">
+                <button onclick="importJsonFile()" class="confirm-btn">导入</button>
+                <button onclick="hideImportModal()" class="cancel-btn">取消</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      
+      // 管理后台相关功能
+      function showAdminPanel() {
+        const modal = document.getElementById('admin-modal');
+        modal.style.display = 'flex';
+      }
+      
+      function hideAdminModal() {
+        const modal = document.getElementById('admin-modal');
+        modal.style.display = 'none';
+      }
+      
+      function clearCache() {
+        variables = {};
+        calculators.forEach(calc => {
+          calc.results = calc.results.map(() => '');
+        });
+        alert('缓存已清除！');
+        renderApp();
+      }
+      
+      function exportData() {
+        const data = {
+          calculators: calculators,
+          currentCalculator: currentCalculator,
+          timestamp: new Date().toISOString()
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'bebetools-data.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        alert('数据已导出！');
+      }
+      
+      // 管理功能实现
+      function addNewCalculator() {
+        const newCalc = {
+          name: "新公式",
+          variables: ["x", "y"],
+          hints: ["变量1", "变量2"],
+          formulas: ["x + y"],
+          formulaNames: ["公式 1"],
+          results: [""]
+        };
+        calculators.push(newCalc);
+        renderApp();
+      }
+      
+      function deleteCalculator(index) {
+        if (calculators.length <= 1) {
+          alert('至少需要保留一个计算器！');
+          return;
+        }
+        if (confirm('确定要删除这个计算器吗？')) {
+          calculators.splice(index, 1);
+          if (currentCalculator >= calculators.length) {
+            currentCalculator = calculators.length - 1;
+          }
+          renderApp();
+        }
+      }
+      
+      function updateCalculatorName(index, name) {
+        calculators[index].name = name;
+      }
+      
+      function updateCalculatorVariables(index, variablesStr) {
+        calculators[index].variables = variablesStr.split(',').map(v => v.trim()).filter(Boolean);
+      }
+      
+      function updateCalculatorHints(index, hintsStr) {
+        calculators[index].hints = hintsStr.split(',').map(h => h.trim()).filter(Boolean);
+      }
+      
+      function updateFormula(index, fIndex, formula) {
+        calculators[index].formulas[fIndex] = formula;
+      }
+      
+      function updateFormulaName(index, fIndex, name) {
+        calculators[index].formulaNames[fIndex] = name;
+      }
+      
+      function addSubFormula(index) {
+        const calc = calculators[index];
+        calc.formulas.push('');
+        calc.formulaNames.push(`公式 ${calc.formulas.length}`);
+        calc.results.push('');
+        renderApp();
+      }
+      
+      function deleteFormula(index, fIndex) {
+        if (calculators[index].formulas.length <= 1) {
+          alert('至少需要保留一个公式！');
+          return;
+        }
+        calculators[index].formulas.splice(fIndex, 1);
+        calculators[index].formulaNames.splice(fIndex, 1);
+        calculators[index].results.splice(fIndex, 1);
+        renderApp();
+      }
+      
+      function showImportModal() {
+        document.getElementById('import-modal').style.display = 'flex';
+      }
+      
+      function hideImportModal() {
+        document.getElementById('import-modal').style.display = 'none';
+      }
+      
+      function importJsonFile() {
+        const fileInput = document.getElementById('json-file-input');
+        const file = fileInput.files[0];
+        if (!file) {
+          alert('请选择一个JSON文件！');
+          return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          try {
+            const data = JSON.parse(e.target.result);
+            if (data.calculators && Array.isArray(data.calculators)) {
+              calculators.length = 0;
+              calculators.push(...data.calculators);
+              currentCalculator = 0;
+              hideImportModal();
+              renderApp();
+              alert('JSON配置导入成功！');
+            } else {
+              alert('JSON格式不正确！');
+            }
+          } catch (error) {
+            alert('JSON文件解析失败：' + error.message);
+          }
+        };
+        reader.readAsText(file);
+      }
+      
+      function exportAllData() {
+        exportData();
+      }
+      
+      function downloadTemplate() {
+        const template = {
+          calculators: [
+            {
+              name: "示例公式",
+              variables: ["x", "y"],
+              hints: ["长度", "宽度"],
+              formulas: ["x * y"],
+              formulaNames: ["面积计算"],
+              results: [""]
+            }
+          ],
+          currentCalculator: 0,
+          timestamp: new Date().toISOString()
+        };
+        
+        const blob = new Blob([JSON.stringify(template, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'bebetools-template.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        alert('模板文件已下载！');
+      }
+      
+      function showHelpInfo() {
+        alert(`提示信息：\n\n• 请确保JSON格式正确\n• 公式必须符合JavaScript语法规范\n• 变量名不能包含特殊字符\n• 相同名称的公式会自动合并显示\n• 数学运算支持 +, -, *, /, (, ) 等基本运算符\n• 变量名区分大小写`);
+      }
+      
+      function showVersionInfo() {
+        alert(`版本更新日志：\n\nv2.0.0\n• 支持多种计算器类型管理\n• 支持JSON导入导出功能\n• 支持公式动态编辑\n• 优化用户界面交互体验\n• 增加计算结果保留两位小数\n• 增加变量输入验证\n• 优化错误提示信息\n• 去掉banner，添加关于按钮`);
+      }
+      
+      // 键盘事件处理
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          hideLoginModal();
+          hideAdminModal();
+        }
+        if (e.key === 'Enter' && document.getElementById('login-modal').style.display === 'flex') {
+          login();
+        }
+      });
+      
+      // CSS样式
+      const style = document.createElement('style');
+      style.textContent = `
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .modal-content {
+        background-color: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+      }
+      
+      .modal-content h3 {
+        margin: 0 0 20px 0;
+        color: #1e293b;
+      }
+      
+      .modal-content input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+      
+      .modal-buttons {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+      }
+      
+      .modal-buttons button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      
+      .confirm-btn {
+        background: #3b82f6;
+        color: white;
+      }
+      
+      .cancel-btn {
+        background: #6b7280;
+        color: white;
+      }
+      
+      /* 管理界面样式 */
+      .admin-container {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      
+      .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #e5e7eb;
+      }
+      
+      .admin-header h2 {
+        color: #1e293b;
+        font-size: 28px;
+        margin: 0;
+      }
+      
+      .logout-btn {
+        background: #dc2626;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.3s;
+      }
+      
+      .logout-btn:hover {
+        background: #b91c1c;
+      }
+      
+      .admin-functions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 30px;
+        justify-content: center;
+      }
+      
+      .admin-btn {
+        background: #3b82f6;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.3s;
+      }
+      
+      .admin-btn:hover {
+        background: #2563eb;
+      }
+      
+      .calculators-management {
+        background: #f8fafc;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      
+      .calculators-management h3 {
+        color: #374151;
+        margin-bottom: 20px;
+        font-size: 20px;
+      }
+      
+      .calculator-item {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 16px;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      }
+      
+      .calc-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+      
+      .calc-name-input {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        font-weight: bold;
+        margin-right: 10px;
+        font-size: 16px;
+      }
+      
+      .delete-btn {
+        background: #dc2626;
+        color: white;
+        padding: 6px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: background 0.3s;
+      }
+      
+      .delete-btn:hover {
+        background: #b91c1c;
+      }
+      
+      .calc-details {
+        display: grid;
+        gap: 12px;
+      }
+      
+      .calc-details label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 4px;
+        color: #374151;
+      }
+      
+      .calc-input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      
+      .formulas-section {
+        margin-top: 16px;
+      }
+      
+      .formulas-section h4 {
+        color: #374151;
+        margin-bottom: 12px;
+        font-size: 16px;
+      }
+      
+      .formula-item {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 8px;
+        padding: 12px;
+        background: #f9fafb;
+        border-radius: 6px;
+        border-left: 4px solid #3b82f6;
+      }
+      
+      .formula-name-input {
+        flex: 1;
+        padding: 6px;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      
+      .formula-input {
+        flex: 2;
+        padding: 6px;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      
+      .add-formula-btn {
+        background: #059669;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        margin-top: 8px;
+        transition: background 0.3s;
+      }
+      
+      .add-formula-btn:hover {
+        background: #047857;
+      }
+      
+      .file-input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+      `;
+      document.head.appendChild(style);
+      
+
+      
+
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

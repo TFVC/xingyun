@@ -1,0 +1,60 @@
+{
+  "name": "bebetools",
+  "version": "1.0.0",
+  "description": "热像仪计算工具 - 已知像元尺寸/焦距计算器",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8080",
+    "serve": "python -m http.server 8080",
+    "dev": "python -m http.server 8080",
+    "build": "echo 'Static files ready for deployment'",
+    "deploy:vercel": "vercel --prod",
+    "deploy:netlify": "netlify deploy --prod --dir .",
+    "deploy:github": "gh-pages -d .",
+    "preview": "python -m http.server 3000",
+    "lint": "echo 'No linting configured for static HTML'",
+    "test": "echo 'No tests configured'"
+  },
+  "keywords": [
+    "thermal-imaging",
+    "calculator",
+    "optics",
+    "resolution",
+    "focal-length",
+    "pixel-size",
+    "热像仪",
+    "计算器",
+    "光学",
+    "分辨率"
+  ],
+  "author": "BebeTools Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/bebetools.git"
+  },
+  "homepage": "https://your-username.github.io/bebetools",
+  "bugs": {
+    "url": "https://github.com/your-username/bebetools/issues"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.0.0",
+    "netlify-cli": "^17.0.0",
+    "vercel": "^32.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "files": [
+    "index.html",
+    "assets/",
+    "banner.png",
+    "README.md"
+  ]
+}
