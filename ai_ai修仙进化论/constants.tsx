@@ -24,7 +24,7 @@ export const TOOLS_DATA: Tool[] = [
     description: '强大的国产大语言模型，具备卓越的代码编写、逻辑推理和文本生成能力。',
     url: 'https://www.deepseek.com/',
     // 已改为本地路径，请确保本地存在该文件
-    icon: './public/icons/deepseek.png', 
+    icon: './ai_ai修仙进化论/public/icons/deepseek.png', 
     roles: [Role.PROJECT_MANAGER, Role.PRODUCT_MANAGER, Role.TECH_LEADER],
     tag: '大语言模型'
   },
