@@ -46,6 +46,6 @@ export const TOOLS_DATA: Tool[] = [
     // 建议也将此图标下载到本地以防远程链接失效
     icon: './public/icons/yuanbao.png',
     roles: [Role.PROJECT_MANAGER, Role.PRODUCT_MANAGER, Role.TECH_LEADER],
-    tag: '办公协同'
+    tag: '智能助手'
   }
 ];
