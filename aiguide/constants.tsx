@@ -5,7 +5,7 @@ import { Role, Tool } from './types';
  * 💡 本地图标存放指南：
  * 1. 在项目根目录创建文件夹：public/icons/
  * 2. 将图标放入该文件夹（建议使用 png, svg 或 jpg）
- * 3. 引用路径请务必使用 './public/icons/文件名' (注意开头的 ./)
+ * 3. 引用路径请务必使用 '/icons/文件名' (此路径格式用于vercel部署)
  */
 export const TOOLS_DATA: Tool[] = [
   {
@@ -37,5 +37,15 @@ export const TOOLS_DATA: Tool[] = [
     icon: './public/icons/doubao.png',
     roles: [Role.PROJECT_MANAGER, Role.PRODUCT_MANAGER, Role.TECH_LEADER],
     tag: '智能助手'
+  },
+  {
+    id: 'yuanbao',
+    name: '元宝',
+    description: '腾讯大模型，支持微信公众号文章、图片及各类文档解析，智能解答',
+    url: 'https://yuanbao.tencent.com/',
+    // 建议也将此图标下载到本地以防远程链接失效
+    icon: './public/icons/yuanbao.png',
+    roles: [Role.PROJECT_MANAGER, Role.PRODUCT_MANAGER, Role.TECH_LEADER],
+    tag: '办公协同'
   }
 ];
