@@ -47,5 +47,15 @@ export const TOOLS_DATA: Tool[] = [
     icon: '/icons/yuanbao.png',
     roles: [Role.TONGYONG],
     tag: '智能助手'
-  }
+  },
+  {
+    id: 'tools1',
+    name: '星云排版',
+    description: '一款免费的微信公众号快速排版工具',
+    url: 'https://tools1.dmdii.top/',
+    // 已改为本地路径，请确保本地存在该文件
+    icon: '/icons/xingyun.png',
+    roles: [Role.PRODUCT_MANAGER],
+    tag: '智能助手'
+  },
 ];
