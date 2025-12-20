@@ -15,7 +15,7 @@ export const TOOLS_DATA: Tool[] = [
     url: 'https://www.feishu.cn/download',
     // 建议也将此图标下载到本地以防远程链接失效
     icon: '/icons/feishu.png',
-    roles: [Role.PROJECT_MANAGER, Role.PRODUCT_MANAGER, Role.TECH_LEADER],
+    roles: [Role.TONGYONG],
     tag: '办公协同'
   },
   {
@@ -25,7 +25,7 @@ export const TOOLS_DATA: Tool[] = [
     url: 'https://www.deepseek.com/',
     // 已改为本地路径，请确保本地存在该文件
     icon: '/icons/deepseek.png', 
-    roles: [Role.PROJECT_MANAGER, Role.PRODUCT_MANAGER, Role.TECH_LEADER],
+    roles: [Role.TONGYONG],
     tag: '大语言模型'
   },
   {
@@ -35,7 +35,7 @@ export const TOOLS_DATA: Tool[] = [
     url: 'https://www.doubao.com/chat/',
     // 已改为本地路径，请确保本地存在该文件
     icon: '/icons/doubao.png',
-    roles: [Role.PROJECT_MANAGER, Role.PRODUCT_MANAGER, Role.TECH_LEADER],
+    roles: [Role.TONGYONG],
     tag: '智能助手'
   },
   {
