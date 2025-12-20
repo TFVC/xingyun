@@ -2,7 +2,8 @@
 export enum Role {
   PROJECT_MANAGER = '项目经理',
   PRODUCT_MANAGER = '产品经理',
-  TECH_LEADER = '技术经理人'
+  TECH_LEADER = '技术经理人',
+  TONGYONG = '通用'
 }
 
 export interface Tool {
