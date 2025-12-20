@@ -14,7 +14,7 @@ export const TOOLS_DATA: Tool[] = [
     description: '先进企业协作与管理平台，集成文档、即时通讯、日历、视频会议等多种功能。',
     url: 'https://www.feishu.cn/download',
     // 建议也将此图标下载到本地以防远程链接失效
-    icon: '',
+    
     roles: [Role.PROJECT_MANAGER, Role.PRODUCT_MANAGER, Role.TECH_LEADER],
     tag: '办公协同'
   },
