@@ -45,7 +45,7 @@ export const TOOLS_DATA: Tool[] = [
     url: 'https://yuanbao.tencent.com/',
     // 建议也将此图标下载到本地以防远程链接失效
     icon: '/icons/yuanbao.png',
-    roles: [Role.PROJECT_MANAGER, Role.PRODUCT_MANAGER, Role.TECH_LEADER],
+    roles: [Role.TONGYONG],
     tag: '智能助手'
   }
 ];
