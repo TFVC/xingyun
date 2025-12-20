@@ -141,7 +141,7 @@ const stageSize = reactive({ width: 1000, height: 520 });
 
 const nodes = reactive([
   { id: 'infrared', label: '红外测温', color: '#ef4444', x: 320, y: 260, vx: 0, vy: 0, url: 'https://dmdii.cn' },
-  { id: 'ai', label: 'AI', color: '#3b82f6', x: 680, y: 260, vx: 0, vy: 0, url: 'https://dmdii.top' }
+  { id: 'ai', label: 'AI', color: '#3b82f6', x: 680, y: 260, vx: 0, vy: 0, url: 'https://ai.dmdii.top' }
 ]);
 
 const potentialNodes = reactive([
