@@ -58,4 +58,14 @@ export const TOOLS_DATA: Tool[] = [
     roles: [Role.PRODUCT_MANAGER],
     tag: '智能助手'
   },
+  {
+    id: 'tools2',
+    name: '星云VC啊',
+    description: '编程提示词快捷生成',
+    url: 'https://tools2.dmdii.top/',
+    // 已改为本地路径，请确保本地存在该文件
+    icon: '/icons/xingyun.png',
+    roles: [Role.PRODUCT_MANAGER],
+    tag: '智能助手'
+  },
 ];
