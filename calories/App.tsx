@@ -39,16 +39,13 @@ const App: React.FC = () => {
     addLine('input', `> ${item.command}`);
     setIsTyping(true);
 
-    // Simulate system thinking delay for "realism"
     const thinkingId = Date.now() + Math.random();
     setLines(prev => [...prev, { id: thinkingId, type: 'system', content: '正在检索核心能量数据库...', timestamp: new Date().toLocaleTimeString() }]);
     
     await new Promise(r => setTimeout(r, 600));
 
-    // Remove thinking message and add actual response
     setLines(prev => prev.filter(l => l.id !== thinkingId));
     
-    // Simulate typing effect
     const textToType = `[RESULT]: ${item.localResponse}`;
     
     for (let i = 0; i <= textToType.length; i++) {
@@ -101,9 +98,18 @@ const App: React.FC = () => {
           {lines.map((line) => (
             <div key={line.id} className="animate-in fade-in duration-300">
               {line.type === 'system' && (
-                <pre className="text-[10px] md:text-xs text-green-600/80 whitespace-pre-wrap leading-tight mb-2">
-                  {line.content}
-                </pre>
+                <div className="mb-2">
+                  {line.content === SYSTEM_ASCII ? (
+                    /* Special handling for ASCII Logo: responsive font size and no wrapping */
+                    <pre className="text-[1.8vw] md:text-[10px] lg:text-[12px] text-green-500 leading-none whitespace-pre overflow-x-hidden select-none">
+                      {line.content}
+                    </pre>
+                  ) : (
+                    <pre className="text-[10px] md:text-xs text-green-600/80 whitespace-pre-wrap leading-tight">
+                      {line.content}
+                    </pre>
+                  )}
+                </div>
               )}
               {line.type === 'input' && (
                 <div className="flex items-start space-x-2">
