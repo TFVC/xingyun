@@ -80,7 +80,7 @@ const App: React.FC = () => {
             <div className="w-3 h-3 rounded-full bg-yellow-500/50"></div>
             <div className="w-3 h-3 rounded-full bg-green-500/50"></div>
           </div>
-          <div className="text-xs text-green-700/70 font-bold tracking-widest">CALORIES-STATIC@CORE</div>
+          <div className="text-xs text-green-700/70 font-bold tracking-widest uppercase">Calories Terminal</div>
           <button 
             onClick={clearTerminal}
             className="text-[10px] text-green-900 hover:text-green-500 transition-colors border border-green-900 px-2 py-0.5 rounded"
@@ -100,25 +100,33 @@ const App: React.FC = () => {
               {line.type === 'system' && (
                 <div className="mb-2">
                   {line.content === SYSTEM_ASCII ? (
-                    /* Special handling for ASCII Logo: responsive font size and no wrapping */
-                    <pre className="text-[1.8vw] md:text-[10px] lg:text-[12px] text-green-500 leading-none whitespace-pre overflow-x-hidden select-none">
+                    /* 
+                       改进点：
+                       1. 使用 text-[1.4vw] 确保 66 个字符能塞进 100vw (100/66 ≈ 1.5)
+                       2. 强制 whitespace-pre 杜绝自动换行
+                       3. 使用 font-mono 确保等宽
+                    */
+                    <pre 
+                      className="text-[1.35vw] sm:text-[1.2vw] md:text-[8px] lg:text-[10px] text-green-500 leading-[1.1] whitespace-pre overflow-hidden select-none font-mono tracking-tighter sm:tracking-normal"
+                      style={{ fontVariantLigatures: 'none' }}
+                    >
                       {line.content}
                     </pre>
                   ) : (
-                    <pre className="text-[10px] md:text-xs text-green-600/80 whitespace-pre-wrap leading-tight">
+                    <pre className="text-[10px] md:text-xs text-green-600/80 whitespace-pre-wrap leading-tight font-mono">
                       {line.content}
                     </pre>
                   )}
                 </div>
               )}
               {line.type === 'input' && (
-                <div className="flex items-start space-x-2">
+                <div className="flex items-start space-x-2 font-mono">
                   <span className="text-green-500 font-bold">$</span>
                   <span className="text-green-400 text-sm md:text-base">{line.content.replace('> ', '')}</span>
                 </div>
               )}
               {line.type === 'output' && (
-                <div className="bg-green-900/10 border-l-2 border-green-500 p-3 my-2 text-green-300 text-sm md:text-base italic leading-relaxed">
+                <div className="bg-green-900/10 border-l-2 border-green-500 p-3 my-2 text-green-300 text-sm md:text-base italic leading-relaxed font-mono">
                   {line.content}
                 </div>
               )}
@@ -142,7 +150,7 @@ const App: React.FC = () => {
                 className={`
                   text-left px-3 py-2 border border-green-900/40 rounded 
                   text-xs hover:bg-green-500/10 hover:border-green-500/60
-                  transition-all duration-200 group relative overflow-hidden
+                  transition-all duration-200 group relative overflow-hidden font-mono
                   ${isTyping ? 'opacity-50 cursor-not-allowed' : 'active:scale-95'}
                 `}
               >
@@ -155,10 +163,10 @@ const App: React.FC = () => {
         </div>
 
         {/* Command Line Input Simulation */}
-        <div className="p-3 bg-black flex items-center space-x-2 text-sm">
-          <span className="text-green-500 font-bold">calories@user:~$</span>
+        <div className="p-3 bg-black flex items-center space-x-2 text-sm font-mono">
+          <span className="text-green-500 font-bold">user@calories:~$</span>
           <div className="flex-1 flex items-center">
-             <span className="text-green-400/50 italic mr-2">
+             <span className="text-green-400/50 italic mr-2 text-xs md:text-sm">
                {isTyping ? "executing..." : "waiting for input..."}
              </span>
              {!isTyping && <span className="w-2 h-5 bg-green-500 cursor-blink"></span>}
@@ -166,9 +174,9 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      <footer className="mt-4 text-[10px] text-green-900/50 flex flex-col md:flex-row justify-between items-center uppercase tracking-widest gap-2">
-        <div>STATUS: LOCAL_ONLY // MODE: STATIC // SPEED: ULTRA_FAST</div>
-        <div>&copy; 2024 CALORIES - 极简主义人生补给站</div>
+      <footer className="mt-4 text-[10px] text-green-900/50 flex flex-col md:flex-row justify-between items-center uppercase tracking-widest gap-2 font-mono">
+        <div>STATUS: LOCAL_CORE // RESPONSIVE: ENABLED</div>
+        <div>&copy; 2024 CALORIES - 极简主义能量站</div>
       </footer>
     </div>
   );
