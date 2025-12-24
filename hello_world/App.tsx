@@ -107,7 +107,7 @@ const App: React.FC = () => {
                        3. 使用 font-mono 确保等宽
                     */
                     <pre 
-                      className="text-[1.35vw] sm:text-[1.2vw] md:text-[8px] lg:text-[10px] text-blue-600 leading-[1.1] whitespace-pre overflow-hidden select-none font-mono tracking-tighter sm:tracking-normal"
+                      className="text-[1.35vw] sm:text-[1.2vw] md:text-[8px] lg:text-[10px] text-blue-600 leading-[1.1] overflow-wrap: break-word word-break: break-word select-none font-mono tracking-tighter sm:tracking-normal"
                       style={{ fontVariantLigatures: 'none' }}
                     >
                       {line.content}
