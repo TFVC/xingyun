@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { DIFFICULTIES, SYSTEM_ASCII } from './constants';
 import { TerminalLine, Difficulty } from './types';
@@ -13,7 +12,7 @@ const App: React.FC = () => {
     const welcomeLines: TerminalLine[] = [
       { id: Date.now(), type: 'system', content: SYSTEM_ASCII, timestamp: new Date().toLocaleTimeString() },
       { id: Date.now() + 1, type: 'system', content: 'CALORIES V2.0.0 - 与AI同行 (STATIC MODE)', timestamp: new Date().toLocaleTimeString() },
-      { id: Date.now() + 2, type: 'system', content: '在一次高负荷运行中，系统出现了异常，导致时不时出现非预期结果。没人知道问题出在了哪里，而我们对系统的依赖，又不得不让系统继续运转下去。在与“新系统”磨合的过程中，人们总结了一套新的操作方法', timestamp: new Date().toLocaleTimeString() },
+      { id: Date.now() + 2, type: 'system', content: '在一次高负荷运行中，系统出现了异常，导致时不时出现非预期结果。没人知道问题出在了哪里，而我们对系统的依赖，又不得不让系统继续运转下去。在与"新系统"磨合的过程中，人们总结了一套新的操作方法', timestamp: new Date().toLocaleTimeString() },
     ];
     setLines(welcomeLines);
   }, []);
@@ -100,12 +99,6 @@ const App: React.FC = () => {
               {line.type === 'system' && (
                 <div className="mb-2">
                   {line.content === SYSTEM_ASCII ? (
-                    /* 
-                       改进点：
-                       1. 使用 text-[1.4vw] 确保 66 个字符能塞进 100vw (100/66 ≈ 1.5)
-                       2. 强制 whitespace-pre 杜绝自动换行
-                       3. 使用 font-mono 确保等宽
-                    */
                     <pre 
                       className="text-[1.35vw] sm:text-[1.2vw] md:text-[8px] lg:text-[10px] text-blue-600 leading-[1.1] overflow-wrap: break-word word-break: break-word select-none font-mono tracking-tighter sm:tracking-normal"
                       style={{ fontVariantLigatures: 'none' }}
@@ -113,20 +106,25 @@ const App: React.FC = () => {
                       {line.content}
                     </pre>
                   ) : (
-                    <pre className="text-[10px] md:text-xs text-blue-600/80 whitespace-pre-wrap leading-tight font-mono">
-                      {line.content}
-                    </pre>
+                    <div className="text-[10px] md:text-xs text-blue-600/80 leading-tight font-mono">
+                      <div className="inline-flex items-start w-full">
+                        <span className="text-blue-500/60 mr-2 flex-shrink-0 mt-0.5">{line.timestamp}</span>
+                        <span className="whitespace-pre-wrap break-words flex-1 min-w-0">
+                          {line.content}
+                        </span>
+                      </div>
+                    </div>
                   )}
                 </div>
               )}
               {line.type === 'input' && (
                 <div className="flex items-start space-x-2 font-mono">
                   <span className="text-blue-500 font-bold">$</span>
-                  <span className="text-blue-400 text-sm md:text-base">{line.content.replace('> ', '')}</span>
+                  <span className="text-blue-400 text-sm md:text-base whitespace-pre-wrap break-words">{line.content.replace('> ', '')}</span>
                 </div>
               )}
               {line.type === 'output' && (
-                <div className="bg-blue-100/10 border-l-2 border-blue-500 p-3 my-2 text-blue-700 text-sm md:text-base italic leading-relaxed font-mono">
+                <div className="bg-blue-100/10 border-l-2 border-blue-500 p-3 my-2 text-blue-700 text-sm md:text-base italic leading-relaxed font-mono whitespace-pre-wrap break-words">
                   {line.content}
                 </div>
               )}
