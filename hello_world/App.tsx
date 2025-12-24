@@ -13,7 +13,7 @@ const App: React.FC = () => {
     const welcomeLines: TerminalLine[] = [
       { id: Date.now(), type: 'system', content: SYSTEM_ASCII, timestamp: new Date().toLocaleTimeString() },
       { id: Date.now() + 1, type: 'system', content: 'CALORIES V2.0.0 - 与AI同行 (STATIC MODE)', timestamp: new Date().toLocaleTimeString() },
-      { id: Date.now() + 2, type: 'system', content: '系统就绪，请随机选择：', timestamp: new Date().toLocaleTimeString() },
+      { id: Date.now() + 2, type: 'system', content: '在一次高负荷运行中，系统出现了异常，导致时不时出现非预期结果。没人知道问题出在了哪里，而我们对系统的依赖，又不得不让系统继续运转下去。在与“新系统”磨合的过程中，人们总结了一套新的操作方法', timestamp: new Date().toLocaleTimeString() },
     ];
     setLines(welcomeLines);
   }, []);
