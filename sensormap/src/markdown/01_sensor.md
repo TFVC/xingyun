@@ -80,6 +80,33 @@
 - 📼 [**播客**](https://v.douyin.com/YOSWhDr6VUw/)
 
 
+## 光谱测量 {id=app-medical}
+### 微型光谱仪 {icon=Gauge}
+> 给物质拍"光谱身份证"的技术
+- 📼 [**播客**](https://v.douyin.com/r2Hpuuq7vJk/)
+### 紫外可见分光光度计 {icon=Gauge}
+> 利用物质分子对紫外可见光的吸收来进行分析的一种仪器
+- 📼 [**播客**](https://v.douyin.com/4gDE7Sbv3rc/)
+### 拉曼光谱仪 {icon=Gauge}
+> 读取物质的“分子指纹”
+- 📼 [**播客**](https://v.douyin.com/QNAHPt7m0Uw/)
+### 近红外光谱仪 {icon=Gauge}
+> 揭秘物质成分的科技之眼
+- 📼 [**播客**](https://v.douyin.com/tJxRgbJNJzI/)
+### 傅里叶变换红外光谱仪 {icon=Gauge}
+> FTIR光谱仪，揭秘物质的化学指纹
+- 📼 [**播客**](https://v.douyin.com/6ua3nvJm3fk/)
+### 高光谱相机 {icon=Gauge}
+> 获取窄波段连续光谱图像
+- 📼 [**播客**](https://v.douyin.com/kJVkPvVyJ1M/)
+### 多光谱相机 {icon=Gauge}
+> 可拍摄多个光谱波段图像，数量少于高光谱
+- 📼 [**播客**](https://v.douyin.com/7QbsUm8_nas/)
+### 量子点微光谱芯片 {icon=Gauge}
+> 利用量子点微阵列的光谱选择性实现传感检测
+- 📼 [**播客**](https://v.douyin.com/WzQdUcVID44/)
+
+
 ## 测流量 {id=flow}
 ### 压差式流量计 {icon=Repeat}
 > 一种被广泛应用的流量计
@@ -87,13 +114,6 @@
 ### 压差式流量计 {icon=Repeat}
 > 一种被广泛应用的流量计
 - 📼 [**播客**](https://v.douyin.com/IDfiHlK8nvs/)
-
-
-## 光谱测量 {id=app-medical}
-### 压力传感科技 {icon=Gauge}
-> 智能压力监测系统
-> 物联网应用合作伙伴
-- Link: https://example.com
 
 
 ## 振动传感 {id=app-food}
