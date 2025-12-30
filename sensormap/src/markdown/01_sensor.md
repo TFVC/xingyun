@@ -75,6 +75,9 @@
 ### 磁致伸缩探测器 {icon=Box}
 > 利用磁致伸缩原理测量位置、距离
 - 📼 [**播客**](https://v.douyin.com/_XVs9roHxSE/)
+### 倾角仪 {icon=Box}
+> 测量物体相对于重力角度的一类传感器
+- 📼 [**播客**](https://v.douyin.com/YOSWhDr6VUw/)
 
 
 ## 测流量 {id=flow}
