@@ -1,124 +1,91 @@
 :root {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  
-  --primary-color: #646cff;
-  --bg-color: #f0f2f5;
+  --primary-color: #3b82f6;
+  --bg-color: #f3f4f6;
   --card-bg: #ffffff;
-  --text-color: #213547;
-  --input-bg: #f9f9f9;
-  --input-border: #e1e1e1;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-color: #1a1a1a;
-    --card-bg: #242424;
-    --text-color: rgba(255, 255, 255, 0.87);
-    --input-bg: #2a2a2a;
-    --input-border: #444;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  }
+  --text-color: #1f2937;
+  --border-radius: 12px;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  justify-content: center;
-  min-width: 320px;
-  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition: background-color 0.3s;
-}
-
-#app {
-  width: 100%;
-  max-width: 420px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   padding: 1rem;
 }
 
 .container {
   background-color: var(--card-bg);
-  padding: 2rem 1.5rem;
-  border-radius: 16px;
-  box-shadow: var(--shadow);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  max-width: 480px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 1.5rem;
-  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 h1 {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 700;
+  text-align: center;
   margin: 0;
-  letter-spacing: -0.025em;
-  background: linear-gradient(120deg, #646cff, #a55eea);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text-color);
 }
 
 p {
-  margin: 0;
-  color: var(--text-color);
-  opacity: 0.8;
-  font-size: 0.95rem;
   text-align: center;
-}
-
-.input-group {
-  width: 100%;
-}
-
-input {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  font-size: 1rem;
-  border-radius: 12px;
-  border: 1px solid var(--input-border);
-  background-color: var(--input-bg);
-  color: var(--text-color);
-  transition: all 0.2s ease;
-  box-sizing: border-box; /* Important for padding */
-}
-
-input:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(100, 108, 255, 0.15);
+  color: #6b7280;
+  margin: -1rem 0 0 0;
+  font-size: 0.875rem;
 }
 
 .controls {
-  width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box; /* Ensure padding doesn't affect width */
+}
+
+input[type="text"]:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .theme-selector {
   display: flex;
+  justify-content: center;
   gap: 0.75rem;
-  padding: 0.5rem;
-  background: var(--input-bg);
-  border-radius: 99px;
-  border: 1px solid var(--input-border);
+  margin-top: 0.5rem;
 }
 
 .theme-btn {
-  width: 24px;
-  height: 24px;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
   border: 2px solid transparent;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
-  padding: 0;
 }
 
 .theme-btn:hover {
@@ -126,85 +93,122 @@ input:focus {
 }
 
 .theme-btn.active {
-  box-shadow: 0 0 0 2px var(--card-bg), 0 0 0 4px var(--text-color);
+  border-color: var(--text-color);
+  box-shadow: 0 0 0 2px var(--bg-color), 0 0 0 4px var(--text-color);
 }
 
-.canvas-container {
-  padding: 1rem;
-  background: white; /* QR code usually looks best on white */
-  border-radius: 12px;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+/* Layout Selector */
+.layout-selector {
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  box-sizing: border-box;
-  aspect-ratio: 1; /* Keep it square */
-  max-width: 300px; /* Prevent it from being too huge on desktop */
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
 }
 
-canvas {
-  max-width: 100% !important;
-  height: auto !important;
-  display: block;
+.layout-btn {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  color: #374151;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.action-btn {
+.layout-btn:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.layout-btn.active {
+  background-color: #eff6ff;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.checkbox-container {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 12px;
-  border: none;
-  background-color: var(--primary-color);
-  color: white;
-  font-size: 1rem;
-  font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
-  width: 100%;
+  font-size: 0.9rem;
+  user-select: none;
   justify-content: center;
 }
 
-.action-btn:hover:not(:disabled) {
-  opacity: 0.9;
-  transform: translateY(-1px);
+.card-fields {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  width: 100%;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none; /* Prevent clicking when hidden */
 }
 
-.action-btn:active:not(:disabled) {
-  transform: translateY(0);
+.card-fields.visible {
+  max-height: 500px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 600px) {
+  .card-fields {
+    grid-template-columns: 1fr; /* Stack on small screens */
+  }
+}
+
+.canvas-container {
+  display: flex;
+  justify-content: center;
+  background-color: #ffffff; /* Ensure white background for transparent QR parts */
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  overflow: hidden; /* Prevent canvas overflow */
+}
+
+canvas {
+  max-width: 100%;
+  height: auto !important; /* Maintain aspect ratio */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.action-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.action-btn:hover {
+  background-color: #2563eb;
 }
 
 .action-btn:disabled {
-  background-color: var(--input-border);
+  background-color: #9ca3af;
   cursor: not-allowed;
-  opacity: 0.7;
 }
 
 .error {
   color: #ef4444;
   font-size: 0.875rem;
-  min-height: 1.25rem;
   text-align: center;
-}
-
-/* Mobile optimizations */
-@media (max-width: 480px) {
-  #app {
-    padding: 0.5rem;
-  }
-  
-  .container {
-    padding: 1.5rem 1rem;
-    gap: 1rem;
-  }
-  
-  h1 {
-    font-size: 1.5rem;
-  }
-  
-  input {
-    font-size: 16px; /* Prevent zoom on iOS */
-    padding: 0.7rem 0.9rem;
-  }
+  min-height: 1.25rem;
 }
