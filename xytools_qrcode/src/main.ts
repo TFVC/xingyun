@@ -583,7 +583,7 @@ const generateQR = async () => {
 let debounceTimer: number;
 const handleInput = () => {
   clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => {
+  debounceTimer = window.setTimeout(() => {
     generateQR();
   }, 300);
 };
