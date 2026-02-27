@@ -17,7 +17,7 @@ interface ScenarioProps {
   theme: 'blue' | 'green' | 'purple';
 }
 
-const ComparisonSlider: React.FC<ScenarioProps> = ({ before, after, theme }) => {
+const ComparisonSlider: React.FC<ScenarioProps> = ({ before, after }) => {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);

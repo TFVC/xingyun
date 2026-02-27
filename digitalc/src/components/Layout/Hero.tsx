@@ -1,6 +1,5 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Leaf, Cpu, Globe, BarChart3 } from 'lucide-react';
+import { ArrowRight, Leaf, Cpu, BarChart3 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Hero = () => {

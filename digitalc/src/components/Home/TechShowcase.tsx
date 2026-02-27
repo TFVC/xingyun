@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Cpu, Wifi, Link2, Database, Leaf } from 'lucide-react';
 
 interface TechCardProps {

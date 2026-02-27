@@ -1,4 +1,3 @@
-import React from 'react';
 import Hero from '../../components/Layout/Hero';
 import CoreConcept from '../../components/Home/CoreConcept';
 import TechShowcase from '../../components/Home/TechShowcase';
