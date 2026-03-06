@@ -1,0 +1,55 @@
+[
+  {
+    "layer": "示范层",
+    "title": "红外测温产业白皮书共建平台",
+    "desc": "明确基础共建任务及1.0版规划",
+    "tags": [
+      "参与共建得工分"
+    ],
+    "status": "completed",
+    "link": "https://www.dmdii.cn",
+    "id": "achievement_dmdii"
+  },
+  {
+    "layer": "行业层",
+    "title": "传感说抖音",
+    "desc": "采取播客、PPT方式，对传感技术进行知识科普",
+    "status": "completed",
+    "link": "https://www.douyin.com/user/MS4wLjABAAAAgXe1OARTjwB_T6mIQm1xyLCMYo5fyesyAmPGNYNi270?from_tab_name=main",
+    "id": "achievement_douyin"
+  },
+  {
+    "layer": "行业层",
+    "title": "传感说知识库",
+    "desc": "传感行业资料/资讯梳理，为行业从业者提供归集信息",
+    "tags": [
+      "知识外脑"
+    ],
+    "status": "completed",
+    "link": "https://ima.qq.com/wiki/?shareId=e591a905d3657f640c09fbea8ff7ff729fd1a4f348347de859bd50bde73d0cae",
+    "id": "achievement_ima"
+  },
+  {
+    "layer": "基础层",
+    "title": "星辰知流知识星球",
+    "desc": "0基础AI应用培训，将对海量AI知识的关注聚焦回应用",
+    "tags": [
+      "336元/年会员",
+      "共建工分可兑换"
+    ],
+    "status": "completed",
+    "link": "https://t.zsxq.com/iSklv",
+    "id": "achievement_zsxq_planet"
+  },
+  {
+    "layer": "基础层",
+    "title": "个人智能工作站",
+    "desc": "个人效率工作主页，助力个人数字资产沉淀",
+    "tags": [
+      "知识星球会员专享"
+    ],
+    "status": "completed",
+    "link": "https://t.zsxq.com/iSklv",
+    "id": "achievement_zsxq_workstation"
+  }
+]

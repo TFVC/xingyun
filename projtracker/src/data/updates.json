@@ -1,0 +1,29 @@
+[
+  {
+    "id": "u1",
+    "date": "2023-10-15",
+    "title": "Sprint 1: Foundation",
+    "author": "Alex",
+    "type": "bi-weekly",
+    "tags": ["Infrastructure", "Design"],
+    "summary": "Set up Next.js 14 project structure, configured Tailwind CSS with Swiss International Style system, and established CI/CD pipeline on Vercel."
+  },
+  {
+    "id": "u2",
+    "date": "2023-10-30",
+    "title": "Sprint 2: Core Data Models",
+    "author": "Sarah",
+    "type": "bi-weekly",
+    "tags": ["Backend", "API"],
+    "summary": "Defined database schemas for Users and Projects. Implemented initial API endpoints for data retrieval. Integrated mock data for frontend development."
+  },
+  {
+    "id": "u3",
+    "date": "2023-11-14",
+    "title": "Alpha Release Notes",
+    "author": "Team",
+    "type": "release",
+    "tags": ["Release", "Alpha"],
+    "summary": "Successfully deployed the Alpha version to the staging environment. Key features include user login and basic dashboard visualization."
+  }
+]

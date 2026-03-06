@@ -1,0 +1,12 @@
+
+[
+  {
+    "name": "团队/伙伴名称",
+    "role": "角色/职责",
+    "avatar": "/images/team/default.png",
+    "links": {
+      "website": "https://example.com",
+      "github": "https://github.com/example"
+    }
+  }
+]

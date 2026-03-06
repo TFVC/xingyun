@@ -1,0 +1,92 @@
+[
+  {
+    "name": "晨冲冲",
+    "role": "专注协同方法与产业实践",
+    "avatar": "/images/team/chenchongchong.png",
+    "links": {
+      "github": "#"
+    },
+    "id": "team_chen"
+  },
+  {
+    "name": "Coze",
+    "role": "智能体开发",
+    "avatar": "/images/team/coze.png",
+    "links": {
+      "website": "https://www.coze.cn/"
+    },
+    "id": "team_coze"
+  },
+  {
+    "name": "DeepSeek",
+    "role": "思考大模型",
+    "avatar": "/images/team/deepseek.png",
+    "links": {
+      "website": "https://www.deepseek.com/"
+    },
+    "id": "team_deepseek"
+  },
+  {
+    "name": "豆包",
+    "role": "多模态大模型",
+    "avatar": "/images/team/doubao.png",
+    "links": {
+      "website": "https://www.doubao.com/"
+    },
+    "id": "team_doubao"
+  },
+  {
+    "name": "飞书",
+    "role": "协作工具",
+    "avatar": "/images/team/feishu.png",
+    "links": {
+      "website": "https://www.feishu.cn/"
+    },
+    "id": "team_feishu"
+  },
+  {
+    "name": "IMA",
+    "role": "知识检索",
+    "avatar": "/images/team/ima.png",
+    "links": {
+      "website": "https://ima.qq.com/"
+    },
+    "id": "team_ima"
+  },
+  {
+    "name": "剪映",
+    "role": "视频创作",
+    "avatar": "/images/team/jianying.png",
+    "links": {
+      "website": "https://www.capcut.cn/"
+    },
+    "id": "team_jianying"
+  },
+  {
+    "name": "协作伙伴",
+    "role": "一群人走得远",
+    "avatar": "/images/team/collaborators.png",
+    "links": {
+      "website": "#"
+    },
+    "id": "team_partner"
+  },
+  {
+    "name": "StellarFlow",
+    "role": "个人智能工作站",
+    "avatar": "/images/team/stellarflow.png",
+    "links": {
+      "website": "#"
+    },
+    "id": "team_stellarflow"
+  },
+  {
+    "name": "TRAE",
+    "role": "代码开发",
+    "avatar": "/images/team/trae.png",
+    "links": {
+      "website": "https://www.trae.cn/"
+    },
+    "id": "team_trae"
+  }
+]

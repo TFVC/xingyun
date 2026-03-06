@@ -1,0 +1,29 @@
+[
+  {
+    "id": "t1",
+    "name": "晨冲冲",
+    "role": "专注协同方法与产业实践",
+    "avatar": "/images/team/chenchongchong.png",
+    "links": {
+      "github": "https://github.com"
+    }
+  },
+  {
+    "id": "t2",
+    "name": "Sarah Jones",
+    "role": "Product Designer",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
+    "links": {
+      "website": "https://dribbble.com"
+    }
+  },
+  {
+    "id": "t3",
+    "name": "Mike Ross",
+    "role": "Full Stack Dev",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Mike",
+    "links": {
+      "github": "https://github.com"
+    }
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "date": "2025-11-25",
+    "title": "红外测温产业白皮书共建平台上线",
+    "status": "completed",
+    "description": "共建工作具体展示与贡献确权",
+    "layer": "示范层",
+    "link": "https://mp.weixin.qq.com/s/sM5AxDoTNAOPmbPW6A0cKA",
+    "id": "milestone_251125"
+  },
+  {
+    "date": "2025-12-17",
+    "title": "传感行业“星云”主站上线",
+    "status": "completed",
+    "description": "传感行业资源协同理念介绍",
+    "layer": "行业层",
+    "link": "https://www.dmdii.top",
+    "id": "milestone_251217"
+  },
+  {
+    "date": "2026-01-27",
+    "title": "“星辰知流”知识星球上线",
+    "status": "completed",
+    "description": "0基础AI应用学习",
+    "layer": "基础层",
+    "link": "https://t.zsxq.com/iSklv",
+    "id": "milestone_260127"
+  },
+  {
+    "date": "2026-03-16",
+    "title": "“个人智能工作站“上线公测",
+    "status": "pending",
+    "description": "优化个体工作策略，助力数字资产沉淀",
+    "layer": "基础层",
+    "link": "https://t.zsxq.com/iSklv",
+    "id": "milestone_260316"
+  }
+]

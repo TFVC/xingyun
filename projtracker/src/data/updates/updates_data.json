@@ -1,0 +1,100 @@
+[
+  {
+    "type": "bi-weekly",
+    "date": "2025.11.16 - 12.16",
+    "title": "投石问路，寻找共识",
+    "description": "红外测温产业白皮书共建平台开发及发布",
+    "tags": [
+      "示范层"
+    ],
+    "authors": [
+      {
+        "name": "晨冲冲",
+        "avatar": "/images/team/chenchongchong.png"
+      }
+    ],
+    "id": "update_2511_2"
+  },
+  {
+    "type": "bi-weekly",
+    "date": "2025.12.17 - 12.30",
+    "title": "价值深化，吸引共识",
+    "description": "2025-12-20：AI 修仙进化论(ai.dmdii.top)发布，星云主站更新协同组织节点可视化。\n2025-12-19：微信公众号排版助手上线“AI修仙进化论导航站”\n2025-12-17：传感行业”星云“主站上线",
+    "tags": [
+      "行业层",
+      "基础层"
+    ],
+    "authors": [
+      {
+        "name": "晨冲冲",
+        "avatar": "/images/team/chenchongchong.png"
+      }
+    ],
+    "id": "update_2512_2"
+  },
+  {
+    "type": "bi-weekly",
+    "date": "2026.01.01 - 01.15",
+    "title": "关键突破，从0到0.5",
+    "description": "2026-01-06：AI 编程提示词助手上线 `https://tools2.dmdii.top`\n个人智能工作站定位确认及开发，协同理论文章完成初稿。",
+    "tags": [
+      "基础层"
+    ],
+    "authors": [
+      {
+        "name": "晨冲冲",
+        "avatar": "/images/team/chenchongchong.png"
+      }
+    ],
+    "id": "update_2601_1"
+  },
+  {
+    "type": "bi-weekly",
+    "date": "2026.01.16 - 01.31",
+    "title": "沉心打磨，静待花开",
+    "description": "星辰知流知识星球上线\n个人智能工作站V1.0版完成，内测中",
+    "tags": [
+      "基础层"
+    ],
+    "authors": [
+      {
+        "name": "晨冲冲",
+        "avatar": "/images/team/chenchongchong.png"
+      }
+    ],
+    "id": "update_2601_2"
+  },
+  {
+    "type": "bi-weekly",
+    "date": "2026.02.01 - 02.15",
+    "title": "沉心打磨，静待花开",
+    "description": "星辰知流知识星球更新\n个人智能工作站小功能优化，内测中",
+    "tags": [
+      "基础层"
+    ],
+    "authors": [
+      {
+        "name": "晨冲冲",
+        "avatar": "/images/team/chenchongchong.png"
+      }
+    ],
+    "id": "update_2602_1"
+  },
+  {
+    "type": "bi-weekly",
+    "date": "2026.02.16 - 02.28",
+    "title": "成果展示，促进流动",
+    "description": "传感说抖音更新\n个人智能工作站1.0版免安装版测试",
+    "tags": [
+      "基础层",
+      "行业层"
+    ],
+    "authors": [
+      {
+        "name": "晨冲冲",
+        "avatar": "/images/team/chenchongchong.png"
+      }
+    ],
+    "id": "update_2602_2"
+  }
+]
